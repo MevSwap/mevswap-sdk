@@ -1,0 +1,13 @@
+src
+tests
+examples
+bench
+docs
+.github
+.editorconfig
+.prettierrc
+.eslintrc.json
+tsconfig.json
+vitest.config.ts
+*.log
+.DS_Store
