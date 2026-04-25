@@ -13,13 +13,20 @@ mev-protected swap sdk for solana. hides wallet identity, amounts, and routing p
 </p>
 
 <p align="center">
-  <a href="https://mevswap.org"><img src="https://img.shields.io/badge/site-mevswap.org-1E90FF?style=flat-square&labelColor=1a1a1a" /></a>
-  <a href="https://x.com/SwapMEV"><img src="https://img.shields.io/badge/twitter-@SwapMEV-1E90FF?style=flat-square&labelColor=1a1a1a&logo=x&logoColor=white" /></a>
-  <a href="https://www.npmjs.com/package/mevswap"><img src="https://img.shields.io/npm/v/mevswap?style=flat-square&labelColor=1a1a1a&color=1E90FF" /></a>
+  <a href="https://www.npmjs.com/package/mevswap"><img src="https://img.shields.io/npm/v/mevswap?style=flat-square&labelColor=1a1a1a&color=1E90FF&label=npm" /></a>
   <a href="https://www.npmjs.com/package/mevswap"><img src="https://img.shields.io/npm/dm/mevswap?style=flat-square&labelColor=1a1a1a&color=00B8FF&label=downloads" /></a>
+  <a href="https://bundlephobia.com/package/mevswap"><img src="https://img.shields.io/bundlephobia/minzip/mevswap?style=flat-square&labelColor=1a1a1a&color=1E90FF&label=size" /></a>
+  <a href="https://github.com/MevSwap/mevswap-sdk/actions/workflows/ci.yml"><img src="https://img.shields.io/github/actions/workflow/status/MevSwap/mevswap-sdk/ci.yml?style=flat-square&labelColor=1a1a1a&label=ci" /></a>
+  <a href="https://github.com/MevSwap/mevswap-sdk/stargazers"><img src="https://img.shields.io/github/stars/MevSwap/mevswap-sdk?style=flat-square&labelColor=1a1a1a&color=1E90FF&label=stars" /></a>
+  <a href="https://github.com/MevSwap/mevswap-sdk/commits/main"><img src="https://img.shields.io/github/last-commit/MevSwap/mevswap-sdk?style=flat-square&labelColor=1a1a1a&color=00B8FF&label=last%20commit" /></a>
   <img src="https://img.shields.io/badge/license-MIT-1E90FF?style=flat-square&labelColor=1a1a1a" />
   <img src="https://img.shields.io/badge/typescript-5.9-3178C6?style=flat-square&labelColor=1a1a1a" />
   <img src="https://img.shields.io/badge/node-%E2%89%A518-43853D?style=flat-square&labelColor=1a1a1a" />
+</p>
+
+<p align="center">
+  <a href="https://mevswap.org"><img src="https://img.shields.io/badge/site-mevswap.org-1E90FF?style=for-the-badge&labelColor=1a1a1a" /></a>
+  <a href="https://x.com/SwapMEV"><img src="https://img.shields.io/badge/twitter-@SwapMEV-1E90FF?style=for-the-badge&labelColor=1a1a1a&logo=x&logoColor=white" /></a>
 </p>
 
 ---
