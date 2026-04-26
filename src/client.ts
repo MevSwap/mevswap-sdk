@@ -1,4 +1,6 @@
 import type { MevSwapConfig, SwapOptions, SwapResult, ApprovalRequest } from './types'
+import { adapterFor } from './adapters'
+import type { ChainId } from './adapters/chain'
 
 export class MevSwap {
   private config: MevSwapConfig
@@ -9,24 +11,21 @@ export class MevSwap {
 
   async swap(options: SwapOptions): Promise<SwapResult> {
     const { from, to, amount, slippage = 0.5, privacy = 'zk', rules = {} } = options
+    const chain: ChainId = options.chain ?? this.config.chain ?? 'ethereum'
 
-    // Check token whitelist
     if (rules.allowedTokens && !rules.allowedTokens.includes(to)) {
       throw new Error(`Token ${to} not in allowed list`)
     }
 
-    // Check max amount
     if (rules.maxAmountUsd && amount > rules.maxAmountUsd) {
       throw new Error(`Amount $${amount} exceeds maxAmountUsd $${rules.maxAmountUsd}`)
     }
 
-    // Check slippage
     const effectiveSlippage = slippage
     if (rules.maxSlippage && effectiveSlippage > rules.maxSlippage) {
       throw new Error(`Slippage ${effectiveSlippage}% exceeds max ${rules.maxSlippage}%`)
     }
 
-    // Approval gate
     if (rules.requireApproval) {
       const req: ApprovalRequest = {
         from, to, amount,
@@ -41,33 +40,46 @@ export class MevSwap {
       if (!approved) throw new Error('Swap denied — approval required')
     }
 
-    // Simulate MEV-protected ZK swap via Jupiter
-    await this._sleep(280)
+    const adapter = adapterFor(chain)
+    const slippageBps = Math.round(effectiveSlippage * 100)
+    const amountIn = toBaseUnits(amount, chain, from)
+
+    const quote = await adapter.quote({ from, to, amount: amountIn, slippageBps })
+    const swap = await adapter.buildAndSubmit(quote, this.config.agentId ?? 'self')
 
     return {
-      txHash: `${Array.from({length: 64}, () => '0123456789abcdef'[Math.floor(Math.random() * 16)]).join('')}`,
+      txHash: swap.txHash,
       from,
       to,
       amountIn: amount,
-      amountOut: parseFloat((amount * 0.998).toFixed(6)),
-      priceImpact: 0.02,
+      amountOut: parseFloat(fromBaseUnits(swap.amountOut, chain, to).toFixed(6)),
+      priceImpact: quote.priceImpactPct,
       privacy,
       executedAt: new Date(),
     }
   }
 
-  async quote(from: string, to: string, amount: number) {
-    await this._sleep(100)
+  async quote(from: string, to: string, amount: number, chain?: ChainId) {
+    const c: ChainId = chain ?? this.config.chain ?? 'ethereum'
+    const adapter = adapterFor(c)
+    const q = await adapter.quote({ from, to, amount: toBaseUnits(amount, c, from) })
+
     return {
       from, to, amount,
-      estimatedOutput: parseFloat((amount * 0.998).toFixed(6)),
-      priceImpact: 0.02,
-      route: [from, 'USDC', to],
+      estimatedOutput: parseFloat(fromBaseUnits(q.amountOut, c, to).toFixed(6)),
+      priceImpact: q.priceImpactPct,
+      route: [from, q.routeLabel, to],
       slippage: 0.5,
     }
   }
+}
 
-  private _sleep(ms: number) {
-    return new Promise(resolve => setTimeout(resolve, ms))
-  }
+function toBaseUnits(amount: number, chain: ChainId, _symbol: string): bigint {
+  const decimals = chain === 'solana' ? 9 : 18
+  return BigInt(Math.round(amount * 10 ** Math.min(decimals, 9))) * BigInt(10 ** Math.max(0, decimals - 9))
+}
+
+function fromBaseUnits(raw: string, _chain: ChainId, _symbol: string): number {
+  const big = BigInt(raw)
+  return Number(big) / 1e18
 }

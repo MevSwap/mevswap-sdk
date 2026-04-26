@@ -1,5 +1,8 @@
+import type { ChainId } from './adapters/chain'
+
 export interface MevSwapConfig {
   agentId?: string
+  chain?: ChainId
   network?: 'mainnet' | 'devnet'
   rpcUrl?: string
   apiKey?: string
@@ -10,6 +13,7 @@ export interface SwapOptions {
   from: string
   to: string
   amount: number
+  chain?: ChainId
   slippage?: number
   privacy?: 'zk' | 'standard'
   rules?: SwapRules

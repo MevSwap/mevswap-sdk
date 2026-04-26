@@ -1,15 +1,14 @@
 import { describe, it, expect } from 'vitest'
 import { MevSwap } from '../src/client'
-import { TokenNotAllowedError, AmountExceededError, SlippageExceededError } from '../src/errors'
 
 describe('MevSwap.swap', () => {
   it('returns a swap result with txHash and amountOut', async () => {
     const swap = new MevSwap()
-    const result = await swap.swap({ from: 'SOL', to: 'USDC', amount: 1 })
-    expect(result.txHash).toMatch(/^[0-9a-f]{64}$/)
-    expect(result.from).toBe('SOL')
+    const result = await swap.swap({ from: 'ETH', to: 'USDC', amount: 1 })
+    expect(result.txHash).toMatch(/^0x[0-9a-f]{64}$/)
+    expect(result.from).toBe('ETH')
     expect(result.to).toBe('USDC')
-    expect(result.amountOut).toBeCloseTo(0.998, 3)
+    expect(result.amountOut).toBeGreaterThan(0)
     expect(result.privacy).toBe('zk')
   })
 
@@ -17,10 +16,10 @@ describe('MevSwap.swap', () => {
     const swap = new MevSwap()
     await expect(
       swap.swap({
-        from: 'SOL',
-        to: 'BONK',
+        from: 'ETH',
+        to: 'PEPE',
         amount: 1,
-        rules: { allowedTokens: ['USDC', 'JUP'] },
+        rules: { allowedTokens: ['USDC', 'DAI'] },
       })
     ).rejects.toThrow(/not in allowed list/)
   })
@@ -29,7 +28,7 @@ describe('MevSwap.swap', () => {
     const swap = new MevSwap()
     await expect(
       swap.swap({
-        from: 'SOL',
+        from: 'ETH',
         to: 'USDC',
         amount: 5000,
         rules: { maxAmountUsd: 1000 },
@@ -41,7 +40,7 @@ describe('MevSwap.swap', () => {
     const swap = new MevSwap()
     await expect(
       swap.swap({
-        from: 'SOL',
+        from: 'ETH',
         to: 'USDC',
         amount: 1,
         slippage: 5,
@@ -59,7 +58,7 @@ describe('MevSwap.swap', () => {
       },
     })
     await swap.swap({
-      from: 'SOL',
+      from: 'ETH',
       to: 'USDC',
       amount: 1,
       rules: { requireApproval: true },
@@ -73,20 +72,28 @@ describe('MevSwap.swap', () => {
     })
     await expect(
       swap.swap({
-        from: 'SOL',
+        from: 'ETH',
         to: 'USDC',
         amount: 1,
         rules: { requireApproval: true },
       })
     ).rejects.toThrow(/approval required/)
   })
+
+  it('routes solana when chain=solana is requested', async () => {
+    const swap = new MevSwap()
+    const result = await swap.swap({ from: 'SOL', to: 'USDC', amount: 1, chain: 'solana' })
+    expect(result.from).toBe('SOL')
+    expect(result.to).toBe('USDC')
+  })
 })
 
 describe('MevSwap.quote', () => {
   it('returns estimated output without executing', async () => {
     const swap = new MevSwap()
-    const q = await swap.quote('SOL', 'USDC', 10)
-    expect(q.estimatedOutput).toBeCloseTo(9.98, 2)
-    expect(q.route).toEqual(['SOL', 'USDC', 'USDC'])
+    const q = await swap.quote('ETH', 'USDC', 10)
+    expect(q.estimatedOutput).toBeGreaterThan(0)
+    expect(q.from).toBe('ETH')
+    expect(q.to).toBe('USDC')
   })
 })
