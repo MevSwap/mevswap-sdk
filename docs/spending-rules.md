@@ -52,7 +52,7 @@ import {
 try {
   await swap.swap({ ... })
 } catch (e) {
-  if (e instanceof TokenNotAllowedError) { /* try a different mint */ }
+  if (e instanceof TokenNotAllowedError) { /* try a different token */ }
   if (e instanceof AmountExceededError)  { /* split into chunks */ }
   if (e instanceof SlippageExceededError){ /* widen tolerance + retry */ }
   if (e instanceof ApprovalDeniedError)  { /* park the trade */ }

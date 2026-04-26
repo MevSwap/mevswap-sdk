@@ -4,7 +4,7 @@ async function main() {
   const swap = new MevSwap()
 
   const result = await swap.swap({
-    from: 'SOL',
+    from: 'ETH',
     to: 'USDC',
     amount: 1,
     privacy: 'zk',

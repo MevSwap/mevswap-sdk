@@ -6,9 +6,9 @@ how the zero-knowledge layer works, without the math.
 
 each swap is wrapped in a proof that commits to the following without revealing them:
 
-- **sender commitment** — a hash of the sender pubkey + a one-time secret
+- **sender commitment** — a hash of the sender address + a one-time secret
 - **amount** — the input amount, range-bounded so it cannot be negative or overflow
-- **recipient commitment** — a hash of the recipient pubkey + a one-time nonce
+- **recipient commitment** — a hash of the recipient address + a one-time nonce
 - **nullifier** — a deterministic value that prevents the same proof from being replayed
 
 the chain verifies the proof and confirms the swap is well-formed. it does not learn who, how much, or who got it.
@@ -41,8 +41,8 @@ interface ZkProof {
 
 ## what the circuit does NOT prove
 
-- that the input mint matches the user's intent (that is enforced by the wallet signer)
-- that the route is optimal (that is enforced by jupiter)
+- that the input token matches the user's intent (that is enforced by the wallet signer)
+- that the route is optimal (that is enforced by the chain adapter — uniswap on eth, jupiter on sol)
 - that the slippage is acceptable (that is enforced by the rules gate before proof generation)
 
 the circuit's job is narrow: prove the swap is well-formed and tied to a one-time commitment. everything else is enforced higher up the stack.

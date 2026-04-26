@@ -9,7 +9,7 @@
 </p>
 
 <p align="center">
-mev-protected swap sdk for solana. hides wallet identity, amounts, and routing paths from frontrunners and sandwich bots. built for humans who want privacy. built for ai agents that need to swap autonomously.
+mev-protected swap sdk for ethereum. hides wallet identity, amounts, and routing paths from frontrunners and sandwich bots. built for humans who want privacy. built for ai agents that need to swap autonomously.
 </p>
 
 <p align="center">
@@ -41,9 +41,9 @@ import { MevSwap } from 'mevswap'
 const swap = new MevSwap({ agentId: 'my-agent' })
 
 const result = await swap.swap({
-  from: 'SOL',
+  from: 'ETH',
   to: 'USDC',
-  amount: 10,
+  amount: 1,
   privacy: 'zk',
   rules: {
     maxSlippage: 1,
@@ -71,8 +71,20 @@ npm install mevswap
 | **zk privacy** | wallet identity, amount, and route never hit the public mempool |
 | **agent native** | built for autonomous ai agents via mcp integration |
 | **spending rules** | `maxSlippage`, `requireApproval`, token whitelist, `maxAmountUsd` |
-| **jupiter routing** | best price across every solana dex, settled privately |
+| **uniswap routing** | best price across uniswap v3 pools, settled privately via flashbots |
 | **mcp server** | native tool for claude, gpt, cursor |
+
+---
+
+## supported chains
+
+| chain | status | router |
+|---|---|---|
+| ethereum mainnet | live | uniswap v3 + flashbots |
+| base | live | uniswap v3 |
+| arbitrum | live | uniswap v3 |
+| optimism | live | uniswap v3 |
+| solana | legacy | jupiter v6 (kept for back-compat, q3 2026 sunset) |
 
 ---
 
@@ -86,9 +98,9 @@ import { MevSwap } from 'mevswap'
 const client = new MevSwap()
 
 const result = await client.swap({
-  from: 'SOL',
+  from: 'ETH',
   to: 'USDC',
-  amount: 5,
+  amount: 1,
   privacy: 'zk',
 })
 
@@ -108,13 +120,13 @@ const client = new MevSwap({
 })
 
 const result = await client.swap({
-  from: 'SOL',
-  to: 'BONK',
-  amount: 1,
+  from: 'ETH',
+  to: 'PEPE',
+  amount: 0.05,
   rules: {
     requireApproval: true,
     maxSlippage: 2,
-    allowedTokens: ['USDC', 'BONK', 'JUP'],
+    allowedTokens: ['USDC', 'DAI', 'PEPE'],
   }
 })
 ```
@@ -126,7 +138,14 @@ import { MevSwapMCP } from 'mevswap'
 
 const server = new MevSwapMCP({ agentId: process.env.AGENT_ID })
 const tools = server.tools()
-const result = await server.call('swap', { from: 'SOL', to: 'USDC', amount: 5 })
+const result = await server.call('swap', { from: 'ETH', to: 'USDC', amount: 1 })
+```
+
+### picking a chain
+
+```ts
+const client = new MevSwap({ chain: 'base' })
+await client.swap({ from: 'ETH', to: 'USDC', amount: 0.5 })
 ```
 
 ---
@@ -138,7 +157,7 @@ rules: {
   requireApproval: true,
   maxSlippage: 1,
   maxAmountUsd: 500,
-  allowedTokens: ['USDC', 'SOL', 'JUP'],
+  allowedTokens: ['USDC', 'ETH', 'DAI'],
 }
 ```
 
@@ -150,11 +169,14 @@ agents are not free to do whatever. you set the rails. they swap inside them.
 
 - [x] core swap sdk
 - [x] zk privacy layer
-- [x] mev-protected order routing
+- [x] mev-protected order routing (flashbots / mev-blocker)
 - [x] mcp integration
 - [x] spending rules engine
-- [ ] multi-hop zk routing (q2 2026)
-- [ ] cross-chain swaps (q3 2026)
+- [x] ethereum mainnet support
+- [x] uniswap v3 routing
+- [x] chain-agnostic adapter layer
+- [ ] base / arbitrum / optimism native quotes (q2 2026)
+- [ ] cross-chain zk swaps (q3 2026)
 - [ ] agent portfolio management (q3 2026)
 
 ---

@@ -13,14 +13,14 @@ const client = new MevSwap({
 
 async function main() {
   const result = await client.swap({
-    from: 'SOL',
-    to: 'BONK',
-    amount: 0.1,
+    from: 'ETH',
+    to: 'PEPE',
+    amount: 0.05,
     rules: {
       requireApproval: true,
       maxSlippage: 2,
-      maxAmountUsd: 50,
-      allowedTokens: ['USDC', 'BONK', 'JUP'],
+      maxAmountUsd: 250,
+      allowedTokens: ['USDC', 'DAI', 'PEPE'],
     },
   })
 

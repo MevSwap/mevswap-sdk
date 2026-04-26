@@ -16,7 +16,7 @@ what we hide, from whom, and how.
 
 every swap that opts into `privacy: 'zk'` is wrapped in a bundle and forwarded to one of the configured private relays. the relay does not see the contents of the bundle beyond what the leader needs to include it. the public mempool is bypassed entirely.
 
-current relay: `https://relay.mevswap.org`. additional relays may be added by passing `relay` to `submitPrivateBundle`.
+current relays: `https://relay.mevswap.org`, flashbots (`https://relay.flashbots.net`), mev-blocker (`https://rpc.mevblocker.io`). on solana the bundle hits a jito-style block engine. additional relays may be added by passing `relay` to `submitPrivateBundle`.
 
 ## what is still visible
 
@@ -24,7 +24,7 @@ we do not lie about what privacy buys you. on-chain, after the bundle lands, the
 
 - that *some* swap happened in the AMM pool
 - the aggregate change in pool reserves
-- the slot the swap landed in
+- the block (or slot) the swap landed in
 
 what is **not** visible:
 
