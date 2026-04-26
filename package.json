@@ -18,13 +18,16 @@
     "prepublishOnly": "npm run build"
   },
   "keywords": ["mev", "zk", "swap", "solana", "privacy", "ai-agent", "mcp", "jupiter", "defi"],
-  "author": "MevSwap <dev@mevswap.io>",
+  "author": "MevSwap <dev@mevswap.org>",
   "license": "MIT",
   "repository": {
     "type": "git",
     "url": "https://github.com/MevSwap/mevswap-sdk.git"
   },
-  "homepage": "https://www.mevswap.org",
+  "homepage": "https://mevswap.org",
+  "bugs": {
+    "url": "https://github.com/MevSwap/mevswap-sdk/issues"
+  },
   "devDependencies": {
     "@types/node": "^22.0.0",
     "tsup": "^8.5.1",

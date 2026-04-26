@@ -13,6 +13,8 @@ mev-protected swap sdk for solana. hides wallet identity, amounts, and routing p
 </p>
 
 <p align="center">
+  <a href="https://mevswap.org"><img src="https://img.shields.io/badge/site-mevswap.org-1E90FF?style=flat-square&labelColor=1a1a1a" /></a>
+  <a href="https://x.com/SwapMEV"><img src="https://img.shields.io/badge/twitter-@SwapMEV-1E90FF?style=flat-square&labelColor=1a1a1a&logo=x&logoColor=white" /></a>
   <a href="https://www.npmjs.com/package/mevswap"><img src="https://img.shields.io/npm/v/mevswap?style=flat-square&labelColor=1a1a1a&color=1E90FF" /></a>
   <a href="https://www.npmjs.com/package/mevswap"><img src="https://img.shields.io/npm/dm/mevswap?style=flat-square&labelColor=1a1a1a&color=00B8FF&label=downloads" /></a>
   <img src="https://img.shields.io/badge/license-MIT-1E90FF?style=flat-square&labelColor=1a1a1a" />
@@ -147,6 +149,14 @@ agents are not free to do whatever. you set the rails. they swap inside them.
 - [ ] multi-hop zk routing (q2 2026)
 - [ ] cross-chain swaps (q3 2026)
 - [ ] agent portfolio management (q3 2026)
+
+---
+
+## links
+
+- site → [mevswap.org](https://mevswap.org)
+- twitter → [@SwapMEV](https://x.com/SwapMEV)
+- npm → [mevswap](https://www.npmjs.com/package/mevswap)
 
 ---
 
