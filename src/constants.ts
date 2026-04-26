@@ -1,5 +1,7 @@
+// global + solana-specific constants. evm constants live in src/evm/constants.ts.
 export const DEFAULT_SLIPPAGE_BPS = 50
 export const DEFAULT_NETWORK = 'mainnet' as const
+export const DEFAULT_CHAIN = 'ethereum' as const
 export const DEFAULT_RPC_MAINNET = 'https://api.mainnet-beta.solana.com'
 export const DEFAULT_RPC_DEVNET = 'https://api.devnet.solana.com'
 
